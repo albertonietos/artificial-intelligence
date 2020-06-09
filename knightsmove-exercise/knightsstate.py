@@ -22,7 +22,7 @@ class KnightsState(state.State):
     # Attributes for dataclass.
     occupied : frozenset
 
-    def __init__(self,occupied):
+    def __init__(self, occupied):
         """
         Creates a new KnightsState object with pieces at specified locations.
 
@@ -45,7 +45,7 @@ class KnightsState(state.State):
             if tuple != type(x) or len(x) != 2 \
                or int != type(x[0]) or int != type(x[1]):
                 raise TypeError("Occupied locations need to be pairs (tuples of length 2) of int.")
-            r,c = x
+            r, c = x
             if r < 0 or r > 7 or c < 0 or c > 7:
                 raise ValueError("Occupied locations need to be within board range [0,7] x [0,7].")
         # All good.
@@ -102,7 +102,21 @@ class KnightsState(state.State):
         #   end for;
         # end for;
         # Return succ;
-    
+        succ = []
+        for (r1, c1) in self.occupied:
+            targets = [(r1-2, c1-1), (r1-1, c1-2),
+                       (r1+1, c1-2), (r1+2, c1-1),
+                       (r1+2, c1+1), (r1+1, c1+2),
+                       (r1-1, c1+2), (r1-2, c1+1)]
+            for (r2, c2) in targets:
+                if r2 in range(8) and c2 in range(8):
+                    if (r2, c2) not in self.occupied:
+                        action = Action((r1, c1), (r2, c2), cost=1)
+                        knightstate = KnightsState(occupied=[(r2, c2)])
+                        succ.append((action, knightstate))
+        return succ
+
+
 if __name__ == "__main__":
     # Create an empty board.
     s1 = KnightsState(occupied = [])
@@ -115,5 +129,3 @@ if __name__ == "__main__":
     # Create a board with two knights; (1,2) and (7,7).
     s3 = KnightsState(occupied  = [ (1,2), (7,7) ])
     print(f"This board has two knights:\n{s3}\n")
-
-       
