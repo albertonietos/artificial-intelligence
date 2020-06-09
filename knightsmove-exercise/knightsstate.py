@@ -103,7 +103,9 @@ class KnightsState(state.State):
         # end for;
         # Return succ;
         succ = []
-        for (r1, c1) in self.occupied:
+        for i, knight in enumerate(self.occupied):
+            unmoved = [kstate for j, kstate in enumerate(self.occupied) if j != i]
+            r1, c1 = knight
             targets = [(r1-2, c1-1), (r1-1, c1-2),
                        (r1+1, c1-2), (r1+2, c1-1),
                        (r1+2, c1+1), (r1+1, c1+2),
@@ -112,8 +114,8 @@ class KnightsState(state.State):
                 if r2 in range(8) and c2 in range(8):
                     if (r2, c2) not in self.occupied:
                         action = Action((r1, c1), (r2, c2), cost=1)
-                        knightstate = KnightsState(occupied=[(r2, c2)])
-                        succ.append((action, knightstate))
+                        knightstates = KnightsState(occupied=[(r2, c2)] + unmoved)
+                        succ.append((action, knightstates))
         return succ
 
 
