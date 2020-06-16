@@ -60,6 +60,55 @@ def astar(start_state, goaltest, h):
     #
     # Good luck!
 
+    # The cost to get to the initial state is zero
+    g[start_state] = 0
+
+    # Keep track of visited states
+    visited = {start_state}
+
+    # Put the start state and its priority value (i.e. f(s) = g(s) + h(s) but initially g(0)=0) in the queue.
+    prio = h(start_state) + 0
+    Q.put((prio, start_state))
+
+    best = inf
+
+    # Begin the search
+    while not Q.empty():
+
+        # The next state to be expanded is the most promising based on f(s)
+        prio, state = Q.get()
+
+        # Don't investigate queued state if its path is not better than the current best
+        if prio > best:
+            break
+
+        for action, ss in state.successors(): # for each successor to `state`
+            print("action.cost", action.cost)  # action to get to successor
+            print("ss\n", ss)  # successor mappgridstate
+            print("start_state\n", start_state)
+
+            g_new = g[ss] + action.cost  # cost of previous path = cost so far + cost to new state
+
+            if ss not in visited:
+                g[ss] = g_new  # update cost to new state
+                predecessor[ss] = (state, action)  # update predecessor
+
+                prio = g[ss] + h(ss)
+                Q.put(prio, ss)
+
+
+
+
+
+
+            # Mark state as visited
+            visited.add(ss)
+
+
+
+
+
+
 if __name__ == "__main__":
     # A few basic examples/tests.
     # Use test_astar.py for more proper testing.
