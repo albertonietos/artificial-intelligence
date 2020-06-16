@@ -60,6 +60,10 @@ def astar(start_state, goaltest, h):
     #
     # Good luck!
 
+    # Is the start_state also a goal state? Then just return!
+    if goaltest(start_state):
+        return []
+
     # The cost to get to the initial state is zero
     g[start_state] = 0
 
@@ -67,10 +71,10 @@ def astar(start_state, goaltest, h):
     visited = {start_state}
 
     # Put the start state and its priority value (i.e. f(s) = g(s) + h(s) but initially g(0)=0) in the queue.
-    prio = h(start_state) + 0
+    prio = 0 + h(start_state)
     Q.put((prio, start_state))
 
-    best = inf
+    best = inf  # initial cost value for the best path
 
     # Begin the search
     while not Q.empty():
@@ -82,31 +86,37 @@ def astar(start_state, goaltest, h):
         if prio > best:
             break
 
-        for action, ss in state.successors(): # for each successor to `state`
-            print("action.cost", action.cost)  # action to get to successor
-            print("ss\n", ss)  # successor mappgridstate
-            print("start_state\n", start_state)
+        # Mark state as visited
+        visited.add(state)
 
-            g_new = g[ss] + action.cost  # cost of previous path = cost so far + cost to new state
+        for (action, ss) in state.successors(): # for each successor to `state`
 
-            if ss not in visited:
-                g[ss] = g_new  # update cost to new state
+            g_new = g[state] + action.cost  # cost of previous path = cost so far + cost to new state
+
+            if ss not in visited or g_new < g[ss]:
+                visited.add(ss)
+                g[ss] = g_new  # update cost
                 predecessor[ss] = (state, action)  # update predecessor
 
                 prio = g[ss] + h(ss)
-                Q.put(prio, ss)
+                Q.put((prio, ss))
 
+            # Check if ss is the goal state
+            if goaltest(ss):
+                if g[ss] < best:  # check if this new path has a lower cost than the current best
+                    best = g[ss]
 
+                    (last_state, last_action) = predecessor[ss]
+                    pi = [last_action]
 
+                    # As long as the predecessor state is not the initial state
+                    while last_state != start_state:
+                        # Update the policy.
+                        (last_state, last_action) = predecessor[last_state]
+                        pi.append(last_action)
+                    pi.reverse()
 
-
-
-            # Mark state as visited
-            visited.add(ss)
-
-
-
-
+    return pi
 
 
 if __name__ == "__main__":
