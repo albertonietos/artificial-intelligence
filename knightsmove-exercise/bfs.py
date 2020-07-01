@@ -45,6 +45,8 @@ def bfs(start_state, goaltest):
         state = Q.get()
         # Check all its successor states.
         for (action,ss) in state.successors():
+            print("action", action)
+            print("ss", ss)
             # Only work with states not already visited.
             if ss not in visited:
                 # Update predecessor.

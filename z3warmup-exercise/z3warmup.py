@@ -58,7 +58,7 @@ def task_1(a,b,c,d):
     # TASK 1: Return the formula in the function docstring.
     # Note: Precedence among the logic operators: ¬,∧,∨,⇒ (from left to right)
     #       E.g. b ⇒ a ∧ c is the same as b ⇒ (a ∧ c).
-    return # Encode formula here.
+    return Or(Or(Implies(a, Not(b)), Implies(b, And(a, c))), d) # Encode formula here.
 
 def task_2(a,b,c,d,e,f):
     """
@@ -74,7 +74,7 @@ def task_2(a,b,c,d,e,f):
     z3 formula
     """
     # TASK 3: Return the formula in the function docstring.
-    return # Encode formula here.
+    return And(Implies(a, Implies(b, Implies(c, Implies(d, e)))), f)# Encode formula here.
 
 def task_3(a,b,c):
     """
@@ -93,7 +93,7 @@ def task_3(a,b,c):
     # Note: Precedence among the logic operators: ¬,∧,∨,⇒ (from left to right)
     #       Tip: Use this to put parenthesis in the formula if you are having
     #            trouble encoding it.
-    return # Encode formula here.
+    return Implies(a, Or(And(b, Not(c)), And(Not(b), c)))# Encode formula here.
 
 def uc(fma):
     """
