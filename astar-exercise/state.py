@@ -10,7 +10,7 @@ class State(ABC):
     states.
 
     The decorator @abstractmethod means that an error is raised if the
-    corresponding method is not implemented when the child is instansiated.
+    corresponding method is not implemented when the child is instantiated.
 
     """
     
