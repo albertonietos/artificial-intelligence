@@ -115,7 +115,7 @@ LivesIn = Function('LivesIn', Person, HouseNum)
 # Gets the number of a house with some color.
 # So e.g. Predicate Color(3,Green) is written
 # NumberOf(Green) == 3
-NumberOf = Function('NumberOf', Col, HouseNum)
+NumberOf = Function('NumerOf', Col, HouseNum)
 
 # Who has what animal as a pet?
 KeepsPet = Function('KeepsPet', Person, Animal)
