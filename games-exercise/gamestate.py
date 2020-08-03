@@ -1,12 +1,13 @@
 from abc import abstractmethod, ABC
 
+
 class GameState(ABC):
     """
     Abstract base class for game states for two-player games.
     """
-    
+
     @abstractmethod
-    def applicable_actions(self,player):
+    def applicable_actions(self, player):
         """
         Returns a list of all applicable actions for `player` in the current 
         game state.
@@ -24,7 +25,7 @@ class GameState(ABC):
         pass
 
     @abstractmethod
-    def successor(self,player,action):
+    def successor(self, player, action):
         """
         Returns the successor game state after `player` executing `action`.
 

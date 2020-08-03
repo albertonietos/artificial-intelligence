@@ -8,10 +8,11 @@ import math
 
 from utils import count_calls
 
+
 # Note, the decorator @count_calls is only used to count the number of calls.
 # not needed for solving the exercise.
 @count_calls
-def minimax(player,state,depth_left):
+def minimax(player, state, depth_left):
     """
     Perform recursive min-max search of a game tree rooted in `state`.
 
@@ -69,7 +70,7 @@ def minimax(player,state,depth_left):
 # Note, the decorator @count_calls is only used to count the number of calls.
 # not needed for solving the exercise.
 @count_calls
-def alphabeta(player,state,depth_left,alpha,beta):
+def alphabeta(player, state, depth_left, alpha, beta):
     """
     Perform recursive alpha/beta search of game tree rooted in `state`.
 
@@ -132,65 +133,64 @@ if __name__ == "__main__":
     from tictactoestate import *
     from pursuitstate import *
 
-    def gamevalue(startingstate,depth):
+
+    def gamevalue(startingstate, depth):
         """ Helper function running minimax and alphabeta."""
         minimax.calls = 0
-        v = minimax(0,startingstate,depth)
+        v = minimax(0, startingstate, depth)
         print(str(v) + " value minimax to depth " + str(depth) + f" ; Calls: {minimax.calls}")
         alphabeta.calls = 0
-        v = alphabeta(0,startingstate,depth,0-math.inf,math.inf)
-        print(str(v) + " value with alphabeta to depth " + str(depth)+ f" ; Calls: {alphabeta.calls}")
+        v = alphabeta(0, startingstate, depth, 0 - math.inf, math.inf)
+        print(str(v) + " value with alphabeta to depth " + str(depth) + f" ; Calls: {alphabeta.calls}")
 
 
     ttt = TicTacToeState()
 
     print(str(ttt))
-    gamevalue(ttt,12)
+    gamevalue(ttt, 12)
     print("CORRECT VALUE for TicTacToe: 0 (Optimally played Tic Tac Toe -> draw)")
 
-    testgrid1 = PursuitState(6,4,[[ 0, 0, 0, 0, 0, 0, 0],
-                                  [ 0,-1, 0,-1, 0,-1, 0],
-                                  [ 0,-1, 0,-1, 0,-1, 0],
-                                  [ 1,-1, 1,-1, 1,-1, 1],
-                                  [ 1,-1, 1,-1, 1,-1, 1]],
-                             0,0,6,0,0)
+    testgrid1 = PursuitState(6, 4, [[0, 0, 0, 0, 0, 0, 0],
+                                    [0, -1, 0, -1, 0, -1, 0],
+                                    [0, -1, 0, -1, 0, -1, 0],
+                                    [1, -1, 1, -1, 1, -1, 1],
+                                    [1, -1, 1, -1, 1, -1, 1]],
+                             0, 0, 6, 0, 0)
 
     print(str(testgrid1))
-    gamevalue(testgrid1,18)
+    gamevalue(testgrid1, 18)
 
     print("CORRECT VALUE for testgrid1: -993 (Crook is always captured)")
 
+    testgrid2 = PursuitState(3, 3, [[0, 0, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [1, 0, 0, 0]],
+                             0, 0, 3, 0, 0);
 
+    testgrid3 = PursuitState(3, 3, [[0, 0, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [0, 0, -1, 0],
+                                    [1, 0, 0, 0]],
+                             0, 0, 3, 0, 0);
 
-    testgrid2 = PursuitState(3,3,[[ 0, 0, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 1, 0, 0, 0]],
-                             0,0,3,0,0);
-
-    testgrid3 = PursuitState(3,3,[[ 0, 0, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 0, 0,-1, 0],
-                                  [ 1, 0, 0, 0]],
-                             0,0,3,0,0);
-
-    testgrid4 = PursuitState(3,3,[[ 0, 0, 0, 0],
-                                  [ 0,-1, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 1, 0, 0, 0]],
-                             0,0,3,0,0);
+    testgrid4 = PursuitState(3, 3, [[0, 0, 0, 0],
+                                    [0, -1, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [1, 0, 0, 0]],
+                             0, 0, 3, 0, 0);
 
     print(str(testgrid2))
-    gamevalue(testgrid2,16)
+    gamevalue(testgrid2, 16)
 
     print("CORRECT VALUE for testgrid2: -3998 (Crook is always captured)")
 
     print(str(testgrid3))
-    gamevalue(testgrid3,18)
+    gamevalue(testgrid3, 18)
 
     print("CORRECT VALUE for testgrid3: 0 (Crook can run around the obstacle indefinitely)")
 
     print(str(testgrid4))
-    gamevalue(testgrid4,16)
+    gamevalue(testgrid4, 16)
 
     print("CORRECT VALUE for testgrid4: -3998 (Crook is always captured)")

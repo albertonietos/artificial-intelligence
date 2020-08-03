@@ -1,11 +1,12 @@
 import random
 from math import inf
 
+
 # Evaluate a state
 # Monte Carlo search: randomly choose actions
-def mc_trial(player,state,steps_left):
+def mc_trial(player, state, steps_left):
     """
-    Recursively perform Mote Carlo Trial randomly choosing among available
+    Recursively perform Monte Carlo Trial randomly choosing among available
     actions for next state.
 
     Performs at most steps_left moves, if steps_left = 0 or if there are no
@@ -25,16 +26,28 @@ def mc_trial(player,state,steps_left):
     float
        Value of final state.
     """
-# TASK 2.1: Implement mc_trial such that your code chooses one action uniformly
-# at random, executes it to obtain a successor state, and continues simulation
-# recursively from that successor state, until there are no steps left. Then the
-# value of the state is returned.
-# CODE HERE
+    # TASK 2.1: Implement mc_trial such that your code chooses one action uniformly
+    # at random, executes it to obtain a successor state, and continues simulation
+    # recursively from that successor state, until there are no steps left. Then the
+    # value of the state is returned.
+    # CODE HERE
+    if steps_left == 0 or len(state.applicable_actions(player)) == 0:
+        return state.value()
 
+    player_2 = 1 - player
 
+    # Choose one action uniformly at random out of the possible actions
+    action = random.choice(state.applicable_actions(player))
 
+    # Execute action to obtain a successor state
+    successor = state.successor(player, action)
+    
+    # Continue simulation recursively from successor state
+    value = mc_trial(player_2, successor, steps_left - 1)
 
-def mc_search(player,state,trials,trial_depth):
+    return value
+
+def mc_search(player, state, trials, trial_depth):
     """
     Repeatedly perform Monte Carlo Trials and return the average value.
 
@@ -55,10 +68,9 @@ def mc_search(player,state,trials,trial_depth):
        Average value of the trials.
 
     """
-# TASK 2.2: Execute mc_trial `trial` number of times, and return the average of
-# the results.
-# CODE HERE
-
+    # TASK 2.2: Execute mc_trial `trial` number of times, and return the average of
+    # the results.
+    # CODE HERE
 
 
 # ------------------------------------------------------------------------------
@@ -69,7 +81,7 @@ def mc_search(player,state,trials,trial_depth):
 ### actions in terms of the value of the random
 ### walk in the state space a.k.a. Monte Carlo Search.
 
-def mc_execute(player,state,moves_left,trials):
+def mc_execute(player, state, moves_left, trials):
     """
     Recursively play a game using Monte Carlo Search printing successive states.
 
@@ -87,30 +99,32 @@ def mc_execute(player,state,moves_left,trials):
        Number of Monte Carlo Trials in each sample.
 
     """
-    if moves_left>0:
-        if player==0:
-            bestScore = inf # Default score for minimizing player
+    if moves_left > 0:
+        if player == 0:
+            bestScore = inf  # Default score for minimizing player
         else:
-            bestScore = -inf # Default score for maximizing player
+            bestScore = -inf  # Default score for maximizing player
         actions = state.applicable_actions(player)
-        if len(actions)>0:
+        if len(actions) > 0:
             for action in actions:
-                state0 = state.successor(player,action)
-                v = mc_search(1-player,state0,trials, moves_left)
-                if player==1 and v > bestScore: # Maximizing player chooses highest score
+                state0 = state.successor(player, action)
+                v = mc_search(1 - player, state0, trials, moves_left)
+                if player == 1 and v > bestScore:  # Maximizing player chooses highest score
                     bestAction = action
                     bestScore = v
-                if player==0 and v < bestScore: # Minimizing player chooses lowest score
+                if player == 0 and v < bestScore:  # Minimizing player chooses lowest score
                     bestAction = action
                     bestScore = v
-            state2 = state.successor(player,bestAction)
-            return mc_execute(1-player,state2,moves_left-1,trials)
+            state2 = state.successor(player, bestAction)
+            return mc_execute(1 - player, state2, moves_left - 1, trials)
     return state.value()
+
 
 if __name__ == "__main__":
 
     from tictactoestate import *
     from pursuitstate import *
+
     ttt = TicTacToeState();
     # Next tests play the games by choosing the next actions according
     # to the most promising action found by Monte Carlo Search.
@@ -123,64 +137,62 @@ if __name__ == "__main__":
     # the crook evade capture by the police. MCS often chooses the best
     # moves for the police, but not always.
 
-
     # No score printed due to the nondeterministic nature.
     print("###################### PLAY TIC TAC TOE ######################")
-    v = mc_execute(0,ttt,12,5000)
+    v = mc_execute(0, ttt, 12, 5000)
     if v == 0:
         print("Draw")
     elif v < 0:
         print("Player 0 wins.")
     else:
         print("Player 1 wins.")
-    testgrid1 = PursuitState(6,4,[[ 0, 0, 0, 0, 0, 0, 0],
-                                  [ 0,-1, 0,-1, 0,-1, 0],
-                                  [ 0,-1, 0,-1, 0,-1, 0],
-                                  [ 1,-1, 1,-1, 1,-1, 1],
-                                  [ 1,-1, 1,-1, 1,-1, 1]],
-                             0,0,6,0,0);
+    testgrid1 = PursuitState(6, 4, [[0, 0, 0, 0, 0, 0, 0],
+                                    [0, -1, 0, -1, 0, -1, 0],
+                                    [0, -1, 0, -1, 0, -1, 0],
+                                    [1, -1, 1, -1, 1, -1, 1],
+                                    [1, -1, 1, -1, 1, -1, 1]],
+                             0, 0, 6, 0, 0);
 
-    testgrid2 = PursuitState(3,3,[[ 0, 0, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 1, 0, 0, 0]],
-                             0,0,3,0,0);
+    testgrid2 = PursuitState(3, 3, [[0, 0, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [1, 0, 0, 0]],
+                             0, 0, 3, 0, 0);
 
-    testgrid3 = PursuitState(3,3,[[ 0, 0, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 0, 0,-1, 0],
-                                  [ 1, 0, 0, 0]],
-                             0,0,3,0,0);
+    testgrid3 = PursuitState(3, 3, [[0, 0, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [0, 0, -1, 0],
+                                    [1, 0, 0, 0]],
+                             0, 0, 3, 0, 0);
 
-    testgrid4 = PursuitState(3,3,[[ 0, 0, 0, 0],
-                                  [ 0,-1, 0, 0],
-                                  [ 0, 0, 0, 0],
-                                  [ 1, 0, 0, 0]],
-                             0,0,3,0,0);
-
+    testgrid4 = PursuitState(3, 3, [[0, 0, 0, 0],
+                                    [0, -1, 0, 0],
+                                    [0, 0, 0, 0],
+                                    [1, 0, 0, 0]],
+                             0, 0, 3, 0, 0);
 
     print("###################### CHASE IN TEST GRID 1 ######################")
-    v = mc_execute(0,testgrid1,20,2000)
+    v = mc_execute(0, testgrid1, 20, 2000)
     if v < 0:
         print("The robber got caught (at least once).")
     else:
         print("The robber can avoid the police.")
 
     print("###################### CHASE IN TEST GRID 2 ######################")
-    v = mc_execute(0,testgrid2,30,3000)
+    v = mc_execute(0, testgrid2, 30, 3000)
     if v < 0:
         print("The robber got caught (at least once).")
     else:
         print("The robber can avoid the police.")
     print("###################### CHASE IN TEST GRID 3 ######################")
-    v = mc_execute(0,testgrid3,30,2000)
+    v = mc_execute(0, testgrid3, 30, 2000)
     if v < 0:
         print("The robber got caught (at least once).")
     else:
         print("The robber can avoid the police.")
 
     print("###################### CHASE IN TEST GRID 4 ######################")
-    v = mc_execute(0,testgrid4,30,2000)
+    v = mc_execute(0, testgrid4, 30, 2000)
     if v < 0:
         print("The robber got caught (at least once).")
     else:
