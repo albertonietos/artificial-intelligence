@@ -71,7 +71,11 @@ def mc_search(player, state, trials, trial_depth):
     # TASK 2.2: Execute mc_trial `trial` number of times, and return the average of
     # the results.
     # CODE HERE
+    sum_value = 0
+    for n in range(trials):
+        sum_value += mc_trial(player, state, trial_depth)
 
+    return sum_value / n
 
 # ------------------------------------------------------------------------------
 ### TOP-LEVEL PROCEDURE FOR USING MONTE CARLO SEARCH
