@@ -6,6 +6,7 @@ The modules include the following projects:
 * [A* algorithm implementation](https://github.com/albertonietos/artificial-intelligence/tree/master/astar-exercise)
 * [Encoding logic formulas using the z3 module](https://github.com/albertonietos/artificial-intelligence/tree/master/z3warmup-exercise)
 * [Sudoku solver via constraint-based solver](https://github.com/albertonietos/artificial-intelligence/tree/master/sudoku-exercise)
+  * Building a sudoku solver can also be formulated as a learnable problem. In this other [repo](https://github.com/albertonietos/pytorch-deep-learning/blob/master/graph-neural-network/7_gnn.ipynb), I implement a recurrent relational network that learns to solve sudoku puzzles.
 * [Knight, Knave, Spy logic puzzle solver](https://github.com/albertonietos/artificial-intelligence/tree/master/knightsknaves-exercise)
 * [Zebra logic puzzle solver](https://github.com/albertonietos/artificial-intelligence/tree/master/zebrapuzzle-exercise)
 * [Computing Conditional Probabilities & Reasoning with Bayesian Networks](https://github.com/albertonietos/artificial-intelligence/tree/master/cpt-bayes-exercise)
